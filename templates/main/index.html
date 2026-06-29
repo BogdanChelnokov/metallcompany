@@ -1,0 +1,144 @@
+<!-- templates/main/index.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ site_settings.site_title|default:"Чёрный металлопрокат и метизная продукция" }}{% endblock %}
+
+{% block content %}
+<!-- HERO-СЕКЦИЯ -->
+<section class="hero">
+    <div class="container">
+        <h1>{{ site_settings.site_title|default:"Чёрный металлопрокат и метизная продукция" }}</h1>
+        <p>{{ site_settings.site_description|default:"ООО «Восток» — надёжный и проверенный поставщик на рынке РФ. Мы предоставляем широкий ассортимент товаров, соответствующих стандартам качества, и предлагаем выгодные условия для долгосрочного сотрудничества." }}</p>
+    </div>
+</section>
+
+<!-- КАТЕГОРИИ -->
+<section id="products" class="products-section">
+    <div class="container">
+        <h2 class="section-title">Наша продукция</h2>
+        
+        <!-- Кнопки-категории -->
+        <div class="category-tabs">
+            {% for category in categories %}
+                <button class="category-btn {% if forloop.first %}active{% endif %}" 
+                        data-category-id="{{ category.id }}"
+                        data-category-slug="{{ category.slug }}">
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-icon">
+                    {% else %}
+                        <i class="fas fa-cube"></i>
+                    {% endif %}
+                    <span>{{ category.name }}</span>
+                </button>
+            {% empty %}
+                <p>Категории пока не добавлены</p>
+            {% endfor %}
+        </div>
+        
+        <!-- Блок с описанием и товарами выбранной категории -->
+        <div id="category-content" class="category-content">
+            <!-- Сюда будет загружаться контент через AJAX -->
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Загрузка...
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПРЕИМУЩЕСТВА -->
+<section id="advantages" class="advantages-section">
+    <div class="container">
+        <h2 class="section-title">Наши преимущества</h2>
+        <div class="advantages-grid">
+            {% for advantage in advantages %}
+                <div class="advantage-item">
+                    {% if advantage.icon %}
+                        <img src="{{ advantage.icon.url }}" alt="{{ advantage.title }}" class="advantage-icon">
+                    {% endif %}
+                    <h3>{{ advantage.title }}</h3>
+                    <p>{{ advantage.description }}</p>
+                </div>
+            {% empty %}
+                <p>Преимущества пока не добавлены</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // URL для AJAX-запросов
+    const API_URL = '/api/category-content/';
+    
+    // Элементы
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const categoryContent = document.getElementById('category-content');
+    
+    // Функция загрузки контента категории
+    function loadCategoryContent(categoryId, slug) {
+        // Показываем спиннер
+        categoryContent.innerHTML = `
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Загрузка...
+            </div>
+        `;
+        
+        // AJAX-запрос
+        fetch(`${API_URL}${slug}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка загрузки');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Обновляем контент
+                categoryContent.innerHTML = data.html;
+                
+                // Плавная анимация появления
+                categoryContent.style.opacity = '0';
+                setTimeout(() => {
+                    categoryContent.style.opacity = '1';
+                }, 50);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                categoryContent.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Не удалось загрузить товары. Попробуйте позже.</p>
+                    </div>
+                `;
+            });
+    }
+    
+    // Обработчики кликов по категориям
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Убираем активный класс у всех кнопок
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            
+            // Добавляем активный класс текущей кнопке
+            this.classList.add('active');
+            
+            // Получаем данные категории
+            const categoryId = this.dataset.categoryId;
+            const categorySlug = this.dataset.categorySlug;
+            
+            // Загружаем контент
+            loadCategoryContent(categoryId, categorySlug);
+        });
+    });
+    
+    // Загружаем первую категорию при загрузке страницы
+    const firstActiveBtn = document.querySelector('.category-btn.active');
+    if (firstActiveBtn) {
+        const slug = firstActiveBtn.dataset.categorySlug;
+        loadCategoryContent(firstActiveBtn.dataset.categoryId, slug);
+    }
+});
+</script>
+{% endblock %}

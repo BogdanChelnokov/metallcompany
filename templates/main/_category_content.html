@@ -1,0 +1,51 @@
+<!-- templates/main/_category_content.html -->
+{% load static %}
+
+<div class="category-content-inner">
+    <!-- Описание категории -->
+    <div class="category-description">
+        <h3>{{ category.name }}</h3>
+        <p>{{ category.description }}</p>
+    </div>
+    
+    <!-- Товары категории -->
+    <div class="category-products">
+        {% if products %}
+            <div class="products-grid">
+                {% for product in products %}
+                    <div class="product-card" onclick="window.location.href='{{ product.get_absolute_url }}'">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                        {% else %}
+                            <div class="product-image-placeholder">
+                                <i class="fas fa-industry"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <h4>{{ product.name }}</h4>
+                        
+                        {% if product.gost %}
+                            <p class="product-spec">ГОСТ: {{ product.gost }}</p>
+                        {% endif %}
+                        
+                        {% if product.steel_grade %}
+                            <p class="product-spec">Марка стали: {{ product.steel_grade }}</p>
+                        {% endif %}
+                        
+                        {% if product.price %}
+                            <p class="product-price">{{ product.price }} ₽</p>
+                        {% endif %}
+                        
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-sm">Подробнее</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-message">
+                <i class="fas fa-box-open"></i>
+                <p>В этой категории пока нет товаров</p>
+                <p class="sub-text">Скоро мы добавим новые позиции!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>

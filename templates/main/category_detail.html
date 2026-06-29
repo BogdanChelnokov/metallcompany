@@ -1,0 +1,455 @@
+<!-- templates/main/category_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} - ООО Металлургическая компания{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Дополнительные стили для страницы категории */
+    .category-page {
+        padding: 120px 0 60px;
+        background: #f8f8f8;
+        min-height: 100vh;
+    }
+    
+    .category-page .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Хлебные крошки */
+    .breadcrumb-category {
+        margin-bottom: 30px;
+        font-size: 14px;
+        color: #888888;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .breadcrumb-category a {
+        color: #555555;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .breadcrumb-category a:hover {
+        color: #222222;
+    }
+    
+    .breadcrumb-category span {
+        margin: 0 8px;
+        color: #cccccc;
+    }
+    
+    .breadcrumb-category .current {
+        color: #222222;
+        font-weight: 500;
+    }
+    
+    /* Заголовок категории */
+    .category-header {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 35px 40px;
+        margin-bottom: 30px;
+        border: 1px solid #e8e8e8;
+    }
+    
+    .category-header h1 {
+        font-size: 32px;
+        font-weight: 300;
+        color: #222222;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+    
+    .category-header .category-meta {
+        font-size: 14px;
+        color: #888888;
+        margin-bottom: 12px;
+    }
+    
+    .category-header .category-meta i {
+        margin-right: 5px;
+    }
+    
+    .category-header p {
+        font-size: 15px;
+        color: #666666;
+        line-height: 1.8;
+        max-width: 800px;
+    }
+    
+    /* Фильтр/сортировка (опционально) */
+    .category-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .category-toolbar .count {
+        font-size: 14px;
+        color: #888888;
+    }
+    
+    .category-toolbar .count strong {
+        color: #222222;
+        font-weight: 600;
+    }
+    
+    /* Сетка товаров */
+    .products-grid-category {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 25px;
+    }
+    
+    .product-card-category {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 20px 18px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid #e8e8e8;
+        position: relative;
+    }
+    
+    .product-card-category:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        border-color: #999999;
+    }
+    
+    .product-card-category .product-image {
+        width: 100%;
+        height: 160px;
+        object-fit: contain;
+        border-radius: 4px;
+        margin-bottom: 14px;
+        background: #f8f8f8;
+        padding: 10px;
+        filter: grayscale(100%);
+        transition: filter 0.4s ease;
+    }
+    
+    .product-card-category:hover .product-image {
+        filter: grayscale(0%);
+    }
+    
+    .product-image-placeholder {
+        width: 100%;
+        height: 160px;
+        background: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin-bottom: 14px;
+        color: #bbbbbb;
+    }
+    
+    .product-image-placeholder i {
+        font-size: 48px;
+        margin-bottom: 8px;
+        color: #cccccc;
+    }
+    
+    .product-image-placeholder span {
+        font-size: 13px;
+        color: #aaaaaa;
+    }
+    
+    .product-card-category h3 {
+        font-size: 16px;
+        font-weight: 500;
+        color: #222222;
+        margin-bottom: 6px;
+        min-height: 40px;
+        line-height: 1.3;
+    }
+    
+    .product-card-category .product-spec {
+        font-size: 12px;
+        color: #888888;
+        margin: 3px 0;
+    }
+    
+    .product-card-category .product-price {
+        font-size: 20px;
+        font-weight: 600;
+        color: #222222;
+        margin: 12px 0 14px;
+    }
+    
+    .product-card-category .btn-detail {
+        display: inline-block;
+        padding: 8px 24px;
+        background: #222222;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    
+    .product-card-category .btn-detail:hover {
+        background: #444444;
+    }
+    
+    /* Пустое состояние */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        background: #ffffff;
+        border-radius: 8px;
+        border: 1px solid #e8e8e8;
+    }
+    
+    .empty-state i {
+        font-size: 64px;
+        color: #cccccc;
+        margin-bottom: 20px;
+    }
+    
+    .empty-state h3 {
+        font-size: 24px;
+        font-weight: 300;
+        color: #555555;
+        margin-bottom: 10px;
+    }
+    
+    .empty-state p {
+        color: #888888;
+        font-size: 16px;
+    }
+    
+    /* Кнопка назад */
+    .back-link-category {
+        margin-top: 35px;
+        text-align: center;
+        padding-top: 25px;
+        border-top: 1px solid #e8e8e8;
+    }
+    
+    .back-link-category a {
+        color: #888888;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .back-link-category a:hover {
+        color: #222222;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 1024px) {
+        .products-grid-category {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .category-page {
+            padding: 100px 0 40px;
+        }
+        
+        .category-header {
+            padding: 25px 20px;
+        }
+        
+        .category-header h1 {
+            font-size: 26px;
+        }
+        
+        .category-header p {
+            font-size: 14px;
+        }
+        
+        .products-grid-category {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+        }
+        
+        .product-card-category {
+            padding: 15px 12px;
+        }
+        
+        .product-card-category .product-image {
+            height: 120px;
+            padding: 8px;
+        }
+        
+        .product-card-category h3 {
+            font-size: 14px;
+            min-height: 34px;
+        }
+        
+        .product-card-category .product-price {
+            font-size: 17px;
+        }
+        
+        .product-card-category .btn-detail {
+            font-size: 11px;
+            padding: 6px 18px;
+        }
+        
+        .category-toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .category-header {
+            padding: 18px 15px;
+        }
+        
+        .category-header h1 {
+            font-size: 22px;
+        }
+        
+        .products-grid-category {
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .product-card-category {
+            padding: 12px 10px;
+        }
+        
+        .product-card-category .product-image {
+            height: 90px;
+            padding: 5px;
+        }
+        
+        .product-card-category h3 {
+            font-size: 12px;
+            min-height: 28px;
+        }
+        
+        .product-card-category .product-spec {
+            font-size: 10px;
+        }
+        
+        .product-card-category .product-price {
+            font-size: 15px;
+            margin: 8px 0 10px;
+        }
+        
+        .product-card-category .btn-detail {
+            font-size: 10px;
+            padding: 4px 14px;
+        }
+        
+        .breadcrumb-category {
+            font-size: 12px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="category-page">
+    <div class="container">
+        
+        <!-- Хлебные крошки -->
+        <div class="breadcrumb-category">
+            <a href="{% url 'home' %}">Главная</a>
+            <span>›</span>
+            <span class="current">{{ category.name }}</span>
+        </div>
+        
+        <!-- Заголовок категории -->
+        <div class="category-header">
+            <h1>{{ category.name }}</h1>
+            <div class="category-meta">
+                <i class="fas fa-tag"></i> Категория
+                {% if products %}
+                    · <i class="fas fa-box"></i> {{ products|length }} товаров
+                {% endif %}
+            </div>
+            {% if category.description %}
+                <p>{{ category.description }}</p>
+            {% endif %}
+        </div>
+        
+        <!-- Товары -->
+        {% if products %}
+            <div class="category-toolbar">
+                <div class="count">
+                    Показано <strong>{{ products|length }}</strong> товаров
+                </div>
+            </div>
+            
+            <div class="products-grid-category">
+                {% for product in products %}
+                    <div class="product-card-category" onclick="window.location.href='{{ product.get_absolute_url }}'">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" loading="lazy">
+                        {% else %}
+                            <div class="product-image-placeholder">
+                                <i class="fas fa-industry"></i>
+                                <span>Нет фото</span>
+                            </div>
+                        {% endif %}
+                        
+                        <h3>{{ product.name }}</h3>
+                        
+                        {% if product.gost %}
+                            <p class="product-spec">ГОСТ: {{ product.gost }}</p>
+                        {% endif %}
+                        
+                        {% if product.steel_grade %}
+                            <p class="product-spec">Марка: {{ product.steel_grade }}</p>
+                        {% endif %}
+                        
+                        {% if product.price %}
+                            <p class="product-price">{{ product.price }} ₽</p>
+                        {% endif %}
+                        
+                        <a href="{{ product.get_absolute_url }}" class="btn-detail">Подробнее</a>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Кнопка назад -->
+            <div class="back-link-category">
+                <a href="{% url 'home' %}">
+                    <i class="fas fa-arrow-left"></i>
+                    Вернуться на главную
+                </a>
+            </div>
+            
+        {% else %}
+            <!-- Пустое состояние -->
+            <div class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h3>В этой категории пока нет товаров</h3>
+                <p>Скоро мы добавим новые позиции в категорию «{{ category.name }}»</p>
+                <div style="margin-top: 25px;">
+                    <a href="{% url 'home' %}" class="btn-detail" style="display: inline-block; padding: 10px 30px; background: #222222; color: #ffffff; text-decoration: none; border-radius: 4px;">
+                        <i class="fas fa-arrow-left"></i> Вернуться на главную
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+        
+    </div>
+</section>
+{% endblock %}

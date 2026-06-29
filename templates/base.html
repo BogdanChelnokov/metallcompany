@@ -1,0 +1,66 @@
+{\rtf1}<!-- templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Чёрный металлопрокат и метизная продукция{% endblock %}</title>
+    
+    <!-- Подключаем стили (создадим чуть позже) -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="{% static 'images/logo.png' %}" style="height: 60px; width: auto; max-width: 300px;">
+                <span>ООО «Металлургическая компания»</span>
+            </div>
+            <nav>
+                <a href="{% url 'home' %}#products">Продукция</a>
+                <a href="#contacts">Контакты</a>
+            </nav>
+            <div class="contacts-header">
+                <a href="tel:{{ site_settings.phone }}" class="phone">
+                    <i class="fas fa-phone"></i> {{ site_settings.phone|default:"+7 (123) 456-78-90" }}
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Подвал -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <h3>ООО «Металлургическая компания»</h3>
+                    <p>{{ site_settings.address|default:"г. Москва, ул. Металлургов, д. 1" }}</p>
+                </div>
+                <div class="footer-contacts">
+                    <p><i class="fas fa-phone"></i> {{ site_settings.phone|default:"+7 (123) 456-78-90" }}</p>
+                    <p><i class="fas fa-envelope"></i> {{ site_settings.email|default:"info@vostok-metiz.ru" }}</p>
+                </div>
+                <div class="footer-copy">
+                    <p>&copy; 2026 ООО «Металлургическая компания». Все права защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Подключаем JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

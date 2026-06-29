@@ -1,0 +1,457 @@
+<!-- templates/main/product_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - ООО Металлургическая компания{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Дополнительные стили для страницы товара */
+    .product-detail-section {
+        padding: 120px 0 60px;
+        background: #f8f8f8;
+        min-height: 100vh;
+    }
+    
+    .product-detail-container {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 40px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        border: 1px solid #e8e8e8;
+    }
+    
+    .product-detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 50px;
+        align-items: start;
+    }
+    
+    /* Хлебные крошки */
+    .breadcrumb {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e8e8e8;
+        font-size: 14px;
+        color: #888888;
+    }
+    
+    .breadcrumb a {
+        color: #555555;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .breadcrumb a:hover {
+        color: #222222;
+    }
+    
+    .breadcrumb span {
+        margin: 0 8px;
+        color: #cccccc;
+    }
+    
+    .breadcrumb .current {
+        color: #222222;
+        font-weight: 500;
+    }
+    
+    /* Изображение товара */
+    .product-image-wrapper {
+        background: #f8f8f8;
+        border-radius: 8px;
+        padding: 30px;
+        text-align: center;
+        border: 1px solid #e8e8e8;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .product-image-wrapper img {
+        max-width: 100%;
+        max-height: 400px;
+        object-fit: contain;
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+    }
+    
+    .product-image-wrapper:hover img {
+        filter: grayscale(0%);
+    }
+    
+    .product-image-placeholder {
+        width: 100%;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #aaaaaa;
+        font-size: 18px;
+    }
+    
+    .product-image-placeholder i {
+        font-size: 80px;
+        color: #cccccc;
+        margin-bottom: 20px;
+    }
+    
+    /* Информация о товаре */
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .product-info .category-badge {
+        display: inline-block;
+        background: #e8e8e8;
+        color: #555555;
+        padding: 4px 16px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 3px;
+        align-self: flex-start;
+    }
+    
+    .product-info h1 {
+        font-size: 32px;
+        font-weight: 300;
+        color: #222222;
+        letter-spacing: 0.5px;
+        margin: 5px 0;
+        line-height: 1.2;
+    }
+    
+    .product-info .subtitle {
+        font-size: 16px;
+        color: #777777;
+        margin-top: -5px;
+    }
+    
+    /* Характеристики */
+    .product-specs {
+        background: #f8f8f8;
+        border-radius: 6px;
+        padding: 20px 25px;
+        margin: 10px 0;
+        border-left: 3px solid #888888;
+    }
+    
+    .product-specs h3 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #888888;
+        font-weight: 400;
+        margin-bottom: 12px;
+    }
+    
+    .specs-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .specs-table tr {
+        border-bottom: 1px solid #e8e8e8;
+    }
+    
+    .specs-table tr:last-child {
+        border-bottom: none;
+    }
+    
+    .specs-table td {
+        padding: 10px 5px;
+        font-size: 15px;
+    }
+    
+    .specs-table .spec-label {
+        color: #888888;
+        font-weight: 300;
+        width: 40%;
+        letter-spacing: 0.3px;
+    }
+    
+    .specs-table .spec-value {
+        color: #222222;
+        font-weight: 500;
+    }
+    
+    /* Описание */
+    .product-description {
+        padding: 15px 0;
+        border-top: 1px solid #e8e8e8;
+        margin-top: 5px;
+    }
+    
+    .product-description h3 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #888888;
+        font-weight: 400;
+        margin-bottom: 10px;
+    }
+    
+    .product-description p {
+        color: #555555;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+    
+    /* Цена (если есть) */
+    .product-price-block {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 15px 0;
+        border-top: 2px solid #222222;
+        margin-top: 5px;
+    }
+    
+    .product-price-block .price-label {
+        font-size: 14px;
+        color: #888888;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .product-price-block .price-value {
+        font-size: 28px;
+        font-weight: 600;
+        color: #222222;
+        letter-spacing: 0.5px;
+    }
+    
+    .product-price-block .price-value span {
+        font-size: 16px;
+        font-weight: 300;
+        color: #888888;
+    }
+    
+    /* Артикул */
+    .product-article {
+        font-size: 13px;
+        color: #aaaaaa;
+        letter-spacing: 0.5px;
+        margin-top: 5px;
+    }
+    
+    /* Кнопка назад */
+    .back-link {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e8e8e8;
+    }
+    
+    .back-link a {
+        color: #888888;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .back-link a:hover {
+        color: #222222;
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 992px) {
+        .product-detail-grid {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .product-image-wrapper {
+            position: static;
+        }
+        
+        .product-image-wrapper img {
+            max-height: 300px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .product-detail-container {
+            padding: 20px;
+        }
+        
+        .product-info h1 {
+            font-size: 24px;
+        }
+        
+        .product-price-block .price-value {
+            font-size: 22px;
+        }
+        
+        .specs-table td {
+            font-size: 13px;
+            padding: 8px 5px;
+        }
+        
+        .product-image-wrapper img {
+            max-height: 200px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .product-detail-container {
+            padding: 15px;
+        }
+        
+        .product-info h1 {
+            font-size: 20px;
+        }
+        
+        .product-price-block {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .product-specs {
+            padding: 15px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="product-detail-section">
+    <div class="container">
+        <div class="product-detail-container">
+            
+            <!-- Хлебные крошки -->
+            <div class="breadcrumb">
+                <a href="{% url 'home' %}">Главная</a>
+                <span>›</span>
+                <a href="{% url 'category_detail' product.category.slug %}">{{ product.category.name }}</a>
+                <span>›</span>
+                <span class="current">{{ product.name }}</span>
+            </div>
+            
+            <!-- Основной контент -->
+            <div class="product-detail-grid">
+                
+                <!-- Левая колонка: Изображение -->
+                <div class="product-image-wrapper">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="product-image-placeholder">
+                            <i class="fas fa-industry"></i>
+                            <span>Изображение товара</span>
+                        </div>
+                    {% endif %}
+                    
+                    {% if product.gost %}
+                        <div style="margin-top: 15px; font-size: 12px; color: #aaaaaa; letter-spacing: 0.5px;">
+                            {{ product.gost }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Правая колонка: Информация -->
+                <div class="product-info">
+                    
+                    <!-- Категория -->
+                    <span class="category-badge">{{ product.category.name }}</span>
+                    
+                    <!-- Название -->
+                    <h1>{{ product.name }}</h1>
+                    
+                    {% if product.steel_grade %}
+                        <div class="subtitle">Марка стали: {{ product.steel_grade }}</div>
+                    {% endif %}
+                    
+                    <!-- Артикул -->
+                    <div class="product-article">
+                        Артикул: {% if product.slug %}{{ product.slug|upper }}{% else %}—{% endif %}
+                    </div>
+                    
+                    <!-- Характеристики -->
+                    <div class="product-specs">
+                        <h3>Технические характеристики</h3>
+                        <table class="specs-table">
+                            {% if product.gost %}
+                                <tr>
+                                    <td class="spec-label">ГОСТ / ТУ</td>
+                                    <td class="spec-value">{{ product.gost }}</td>
+                                </tr>
+                            {% endif %}
+                            {% if product.steel_grade %}
+                                <tr>
+                                    <td class="spec-label">Марка стали</td>
+                                    <td class="spec-value">{{ product.steel_grade }}</td>
+                                </tr>
+                            {% endif %}
+                            {% if product.length %}
+                                <tr>
+                                    <td class="spec-label">Длина</td>
+                                    <td class="spec-value">{{ product.length }}</td>
+                                </tr>
+                            {% endif %}
+                            {% if product.weight_per_meter %}
+                                <tr>
+                                    <td class="spec-label">Вес погонного метра</td>
+                                    <td class="spec-value">{{ product.weight_per_meter }} кг</td>
+                                </tr>
+                            {% endif %}
+                            {% if product.width %}
+                                <tr>
+                                    <td class="spec-label">Ширина</td>
+                                    <td class="spec-value">{{ product.width }}</td>
+                                </tr>
+                            {% endif %}
+                            {% if product.thickness %}
+                                <tr>
+                                    <td class="spec-label">Толщина</td>
+                                    <td class="spec-value">{{ product.thickness }}</td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                    
+                    <!-- Описание -->
+                    {% if product.description %}
+                        <div class="product-description">
+                            <h3>Описание</h3>
+                            <p>{{ product.description }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Цена (информационно, без кнопки заказа) -->
+                    {% if product.price %}
+                        <div class="product-price-block">
+                            <span class="price-label">Цена</span>
+                            <span class="price-value">{{ product.price }} <span>₽</span></span>
+                            <span style="font-size: 13px; color: #aaaaaa; margin-left: auto;">
+                                * цена указана за единицу
+                            </span>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Кнопка назад -->
+                    <div class="back-link">
+                        <a href="{% url 'category_detail' product.category.slug %}">
+                            <i class="fas fa-arrow-left"></i>
+                            Вернуться к категории «{{ product.category.name }}»
+                        </a>
+                    </div>
+                    
+                </div>
+                <!-- /product-info -->
+                
+            </div>
+            <!-- /product-detail-grid -->
+            
+        </div>
+        <!-- /product-detail-container -->
+    </div>
+</section>
+{% endblock %}
