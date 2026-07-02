@@ -6,6 +6,11 @@
     <div class="category-description">
         <h3>{{ category.name }}</h3>
         <p>{{ category.description }}</p>
+        {% if products %}
+            <div style="margin-top: 8px; font-size: 13px; color: #888888;">
+                <i class="fas fa-box"></i> Всего товаров: {{ products|length }}
+            </div>
+        {% endif %}
     </div>
     
     <!-- Товары категории -->
@@ -15,10 +20,11 @@
                 {% for product in products %}
                     <div class="product-card" onclick="window.location.href='{{ product.get_absolute_url }}'">
                         {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" loading="lazy">
                         {% else %}
                             <div class="product-image-placeholder">
                                 <i class="fas fa-industry"></i>
+                                <span>Нет фото</span>
                             </div>
                         {% endif %}
                         
@@ -29,14 +35,12 @@
                         {% endif %}
                         
                         {% if product.steel_grade %}
-                            <p class="product-spec">Марка стали: {{ product.steel_grade }}</p>
+                            <p class="product-spec">Марка: {{ product.steel_grade }}</p>
                         {% endif %}
                         
-                        {% if product.price %}
-                            <p class="product-price">{{ product.price }} ₽</p>
-                        {% endif %}
+                        {# Цена удалена #}
                         
-                        <a href="{{ product.get_absolute_url }}" class="btn btn-sm">Подробнее</a>
+                        <a href="{{ product.get_absolute_url }}" class="btn-sm">Подробнее</a>
                     </div>
                 {% endfor %}
             </div>

@@ -179,7 +179,7 @@
         font-weight: 500;
     }
     
-    /* Описание */
+    /* ===== ОПИСАНИЕ (ПОСЛЕ ХАРАКТЕРИСТИК) ===== */
     .product-description {
         padding: 15px 0;
         border-top: 1px solid #e8e8e8;
@@ -199,36 +199,6 @@
         color: #555555;
         font-size: 15px;
         line-height: 1.8;
-    }
-    
-    /* Цена (если есть) */
-    .product-price-block {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 15px 0;
-        border-top: 2px solid #222222;
-        margin-top: 5px;
-    }
-    
-    .product-price-block .price-label {
-        font-size: 14px;
-        color: #888888;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    .product-price-block .price-value {
-        font-size: 28px;
-        font-weight: 600;
-        color: #222222;
-        letter-spacing: 0.5px;
-    }
-    
-    .product-price-block .price-value span {
-        font-size: 16px;
-        font-weight: 300;
-        color: #888888;
     }
     
     /* Артикул */
@@ -285,10 +255,6 @@
             font-size: 24px;
         }
         
-        .product-price-block .price-value {
-            font-size: 22px;
-        }
-        
         .specs-table td {
             font-size: 13px;
             padding: 8px 5px;
@@ -306,12 +272,6 @@
         
         .product-info h1 {
             font-size: 20px;
-        }
-        
-        .product-price-block {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
         }
         
         .product-specs {
@@ -374,7 +334,7 @@
                         Артикул: {% if product.slug %}{{ product.slug|upper }}{% else %}—{% endif %}
                     </div>
                     
-                    <!-- Характеристики -->
+                    <!-- ===== ТЕХНИЧЕСКИЕ ХАРАКТЕРИСТИКИ ===== -->
                     <div class="product-specs">
                         <h3>Технические характеристики</h3>
                         <table class="specs-table">
@@ -402,22 +362,10 @@
                                     <td class="spec-value">{{ product.weight_per_meter }} кг</td>
                                 </tr>
                             {% endif %}
-                            {% if product.width %}
-                                <tr>
-                                    <td class="spec-label">Ширина</td>
-                                    <td class="spec-value">{{ product.width }}</td>
-                                </tr>
-                            {% endif %}
-                            {% if product.thickness %}
-                                <tr>
-                                    <td class="spec-label">Толщина</td>
-                                    <td class="spec-value">{{ product.thickness }}</td>
-                                </tr>
-                            {% endif %}
                         </table>
                     </div>
                     
-                    <!-- Описание -->
+                    <!-- ===== ОПИСАНИЕ (ПОСЛЕ ХАРАКТЕРИСТИК) ===== -->
                     {% if product.description %}
                         <div class="product-description">
                             <h3>Описание</h3>
@@ -425,16 +373,7 @@
                         </div>
                     {% endif %}
                     
-                    <!-- Цена (информационно, без кнопки заказа) -->
-                    {% if product.price %}
-                        <div class="product-price-block">
-                            <span class="price-label">Цена</span>
-                            <span class="price-value">{{ product.price }} <span>₽</span></span>
-                            <span style="font-size: 13px; color: #aaaaaa; margin-left: auto;">
-                                * цена указана за единицу
-                            </span>
-                        </div>
-                    {% endif %}
+                    <!-- ===== ЦЕНА УДАЛЕНА ===== -->
                     
                     <!-- Кнопка назад -->
                     <div class="back-link">

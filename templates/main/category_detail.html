@@ -181,13 +181,6 @@
         margin: 3px 0;
     }
     
-    .product-card-category .product-price {
-        font-size: 20px;
-        font-weight: 600;
-        color: #222222;
-        margin: 12px 0 14px;
-    }
-    
     .product-card-category .btn-detail {
         display: inline-block;
         padding: 8px 24px;
@@ -300,10 +293,6 @@
             min-height: 34px;
         }
         
-        .product-card-category .product-price {
-            font-size: 17px;
-        }
-        
         .product-card-category .btn-detail {
             font-size: 11px;
             padding: 6px 18px;
@@ -345,11 +334,6 @@
         
         .product-card-category .product-spec {
             font-size: 10px;
-        }
-        
-        .product-card-category .product-price {
-            font-size: 15px;
-            margin: 8px 0 10px;
         }
         
         .product-card-category .btn-detail {
@@ -419,9 +403,7 @@
                             <p class="product-spec">Марка: {{ product.steel_grade }}</p>
                         {% endif %}
                         
-                        {% if product.price %}
-                            <p class="product-price">{{ product.price }} ₽</p>
-                        {% endif %}
+                        {# Цена удалена #}
                         
                         <a href="{{ product.get_absolute_url }}" class="btn-detail">Подробнее</a>
                     </div>
