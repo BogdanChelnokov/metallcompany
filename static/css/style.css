@@ -1,7 +1,8 @@
 /* ============================================
    static/css/style.css
-   Строгий черно-белый стиль (как на vostok-metiz.ru)
-   Минимализм, индустриальный дизайн
+   Строгий черно-белый стиль
+   Адаптивная шапка в одну строку
+   Резиновый hero с автоматическими отступами
    ============================================ */
 
 /* ===== ОБЩИЕ НАСТРОЙКИ ===== */
@@ -29,16 +30,17 @@ a {
     color: inherit;
 }
 
-/* ===== ШАПКА (HEADER) - С ЗАВОДСКИМ ФОНОМ ===== */
+/* ===== ШАПКА ===== */
 header {
     background: #1a1a1a;
     color: #ffffff;
-    padding: 10px 0;
+    padding: 12px 0;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
     border-bottom: 2px solid #444444;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
 }
 
 header .container {
@@ -47,105 +49,84 @@ header .container {
     align-items: center;
 }
 
+/* ===== ЛОГОТИП ===== */
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
+    margin-right: 40px;
+    flex-shrink: 0;
 }
 
 .logo img {
-    height: 45px;          /* Фиксированная высота */
-    width: auto;           /* Ширина автоматически */
-    max-width: 250px;      /* Максимальная ширина */
-    min-width: 100px;      /* Минимальная ширина (чтобы не сжимался в точку) */
-    object-fit: contain;   /* Сохраняем пропорции */
-    display: block;
-    background: transparent;
-    image-rendering: auto; /* Плавное масштабирование */
+    height: 50px;
+    width: auto;
+    object-fit: contain;
 }
-.logo span {
-    font-size: 18px;
+
+.company-name {
+    font-size: 28px;
     font-weight: 700;
     color: #ffffff;
     letter-spacing: 1px;
-    text-transform: uppercase;
+    white-space: nowrap;
 }
 
-.logo span small {
-    font-weight: 300;
-    font-size: 12px;
-    color: #888888;
-    display: block;
-    letter-spacing: 0.5px;
-}
-
-/* Навигация */
+/* ===== НАВИГАЦИЯ ===== */
 nav {
     display: flex;
-    gap: 25px;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: nowrap;
 }
 
 nav a {
     color: #cccccc;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     transition: color 0.3s ease;
-    letter-spacing: 0.5px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 nav a:hover {
     color: #ffffff;
 }
 
-/* Контакты в шапке */
-.contacts-header .phone {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
-    transition: color 0.3s ease;
-    letter-spacing: 0.5px;
+.nav-phone {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    padding-left: 20px;
+    border-left: 1px solid #555555;
+    white-space: nowrap;
 }
 
-.contacts-header .phone:hover {
-    color: #aaaaaa;
-}
-
-.contacts-header .phone i {
+.nav-phone i {
     margin-right: 8px;
     color: #888888;
 }
 
+/* ===== HERO (РЕЗИНОВЫЙ) ===== */
 .hero {
     background: 
-        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.75)),
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)),
         url('/static/images/factory-bg.jpg') center/cover no-repeat fixed;
     color: #ffffff;
-    padding: 150px 0 80px;
+    padding: 12vh 0 8vh;
     text-align: center;
-    border-bottom: 3px solid #444444;
-    min-height: 400px;
-}
-
-@media (max-width: 768px) {
-    .hero {
-        padding: 140px 0 40px !important;
-        background-attachment: scroll !important;
-        min-height: 300px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero {
-        padding: 130px 0 30px !important;
-        min-height: 250px;
-    }
+    border-bottom: 2px solid #444444;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .hero h1 {
-    font-size: 44px;
+    font-size: clamp(28px, 5vw, 44px);
     font-weight: 300;
     margin-bottom: 15px;
     letter-spacing: 2px;
@@ -153,21 +134,18 @@ nav a:hover {
     color: #ffffff;
 }
 
-.hero h1 strong {
-    font-weight: 700;
-}
-
 .hero p {
-    font-size: 18px;
+    font-size: clamp(14px, 2.5vw, 18px);
     max-width: 750px;
     margin: 0 auto;
-    opacity: 0.75;
+    opacity: 0.85;
     line-height: 1.8;
     font-weight: 300;
     letter-spacing: 0.3px;
+    padding: 0 20px;
 }
 
-/* ===== СЕКЦИЯ ПРОДУКЦИИ ===== */
+/* ===== ПРОДУКЦИЯ ===== */
 .products-section {
     padding: 60px 0 50px;
     background: #f8f8f8;
@@ -193,7 +171,7 @@ nav a:hover {
     margin: 12px auto 0;
 }
 
-/* ===== КАТЕГОРИИ (СТРОГИЕ КНОПКИ) ===== */
+/* ===== КАТЕГОРИИ ===== */
 .category-tabs {
     display: flex;
     flex-wrap: nowrap;
@@ -320,7 +298,6 @@ nav a:hover {
     color: #666666;
 }
 
-/* Описание категории */
 .category-description {
     margin-bottom: 25px;
     padding-bottom: 20px;
@@ -341,11 +318,7 @@ nav a:hover {
     line-height: 1.8;
 }
 
-/* Сетка товаров */
-.category-products {
-    margin-top: 10px;
-}
-
+/* ===== ТОВАРЫ ===== */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -411,32 +384,28 @@ nav a:hover {
     margin: 2px 0;
 }
 
-.product-card .product-price {
-    font-size: 20px;
-    font-weight: 600;
-    color: #222222;
-    margin: 12px 0;
-}
-
 .product-card .btn-sm {
-    padding: 6px 18px;
-    font-size: 12px;
+    padding: 10px 24px;
+    font-size: 14px;
     background: #222222;
     color: #ffffff;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
     display: inline-block;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    font-weight: 500;
 }
 
 .product-card .btn-sm:hover {
     background: #444444;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Пустое сообщение */
+/* ===== ПУСТОЕ СООБЩЕНИЕ ===== */
 .empty-message {
     text-align: center;
     padding: 60px 20px;
@@ -458,18 +427,6 @@ nav a:hover {
 .empty-message .sub-text {
     font-size: 14px;
     color: #888888;
-}
-
-/* Ошибка */
-.error-message {
-    text-align: center;
-    padding: 40px;
-    color: #cc3333;
-}
-
-.error-message i {
-    font-size: 36px;
-    margin-bottom: 15px;
 }
 
 /* ===== ПРЕИМУЩЕСТВА ===== */
@@ -529,7 +486,7 @@ nav a:hover {
     line-height: 1.7;
 }
 
-/* ===== ПОДВАЛ (FOOTER) ===== */
+/* ===== ПОДВАЛ ===== */
 footer {
     background: #1a1a1a;
     color: #ffffff;
@@ -593,19 +550,19 @@ footer {
     letter-spacing: 0.5px;
 }
 
-/* ===== КНОПКИ (СТРОГИЕ) ===== */
+/* ===== КНОПКИ ===== */
 .btn {
     display: inline-block;
     background: #222222;
     color: #ffffff;
-    padding: 10px 28px;
-    border-radius: 3px;
+    padding: 12px 32px;
+    border-radius: 4px;
     text-decoration: none;
     font-weight: 400;
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -624,9 +581,10 @@ footer {
     background: #777777;
 }
 
-/* ===== АДАПТИВНОСТЬ ===== */
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
 
-/* Планшеты и маленькие экраны */
 @media (max-width: 1024px) {
     .category-btn {
         padding: 8px 10px;
@@ -634,91 +592,96 @@ footer {
         max-width: 95px;
         font-size: 10px;
     }
-
     .category-icon {
         width: 24px;
         height: 24px;
     }
-
     .category-btn i {
         font-size: 18px;
     }
-
     .category-btn span {
         font-size: 9px;
     }
-
     .hero h1 {
-        font-size: 34px;
+        font-size: clamp(26px, 4.5vw, 34px);
     }
-
     .hero p {
-        font-size: 16px;
+        font-size: clamp(13px, 2.2vw, 16px);
     }
-
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
         gap: 16px;
     }
 }
 
-/* Мобильные телефоны */
 @media (max-width: 768px) {
+    header {
+        padding: 8px 0;
+    }
     header .container {
+        flex-wrap: wrap;
+        padding: 0 10px;
+        gap: 4px;
         flex-direction: column;
-        gap: 8px;
-        padding: 8px 15px;
+        align-items: center;
     }
-
-    .logo span {
-        font-size: 15px;
+    .logo {
+        gap: 10px;
+        margin-right: 0;
+        justify-content: center;
+        width: 100%;
     }
-
-    .logo span small {
-        font-size: 10px;
-    }
-
     .logo img {
         height: 32px;
     }
-
+    .company-name {
+        font-size: 16px;
+        text-align: center;
+        white-space: nowrap;
+    }
     nav {
-        gap: 12px;
+        gap: 6px;
         flex-wrap: wrap;
         justify-content: center;
+        width: 100%;
+        padding-top: 6px;
+        border-top: 1px solid #333;
     }
-
     nav a {
-        font-size: 11px;
+        font-size: 10px;
+        padding: 4px 6px;
+        white-space: nowrap;
     }
-
-    .contacts-header .phone {
-        font-size: 14px;
+    .nav-phone {
+        font-size: 11px !important;
+        padding-left: 0 !important;
+        border-left: none !important;
+        white-space: nowrap;
     }
-
+    .nav-phone i {
+        font-size: 10px;
+        margin-right: 4px;
+    }
     .hero {
-        padding: 110px 0 50px;
+        padding: 14vh 0 8vh !important;
+        min-height: 40vh !important;
+        background-attachment: scroll !important;
     }
-
     .hero h1 {
-        font-size: 26px;
+        font-size: clamp(22px, 4vw, 28px);
     }
-
     .hero p {
-        font-size: 14px;
+        font-size: clamp(13px, 2.2vw, 15px);
         padding: 0 15px;
     }
-
     .section-title {
         font-size: 24px;
     }
-
     .category-tabs {
         gap: 4px;
         padding: 6px 0;
         justify-content: flex-start;
     }
-
     .category-btn {
         padding: 6px 8px;
         min-width: 60px;
@@ -726,167 +689,147 @@ footer {
         border-width: 1px;
         border-radius: 3px;
     }
-
     .category-icon {
         width: 20px;
         height: 20px;
     }
-
     .category-btn i {
         font-size: 15px;
     }
-
     .category-btn span {
         font-size: 8px;
     }
-
     .products-section {
         padding: 35px 0 25px;
     }
-
     .category-content {
         padding: 15px 12px;
         min-height: 180px;
     }
-
     .category-description h3 {
         font-size: 20px;
     }
-
     .category-description p {
         font-size: 13px;
     }
-
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 12px;
     }
-
     .product-card {
         padding: 12px 10px;
     }
-
     .product-card .product-image {
         height: 100px;
     }
-
     .product-card h4 {
         font-size: 13px;
         min-height: 32px;
     }
-
     .product-card .product-spec {
         font-size: 11px;
     }
-
-    .product-card .product-price {
-        font-size: 16px;
-    }
-
     .product-card .btn-sm {
-        font-size: 10px;
-        padding: 4px 12px;
+        font-size: 12px;
+        padding: 8px 18px;
     }
-
     .advantages-grid {
         grid-template-columns: 1fr 1fr;
         gap: 12px;
     }
-
     .advantage-item {
         padding: 15px 12px;
     }
-
     .advantage-item h3 {
         font-size: 14px;
     }
-
     .footer-grid {
         grid-template-columns: 1fr;
         text-align: center;
     }
-
     .footer-grid h3::after {
         margin: 8px auto 0;
     }
 }
 
-/* Очень маленькие экраны */
 @media (max-width: 480px) {
+    header {
+        padding: 6px 0;
+    }
+    .logo img {
+        height: 28px;
+    }
+    .company-name {
+        font-size: 14px;
+    }
+    nav a {
+        font-size: 9px;
+        padding: 2px 5px;
+    }
+    .nav-phone {
+        font-size: 10px !important;
+    }
+    .hero {
+        padding: 14vh 0 6vh !important;
+        min-height: 35vh !important;
+    }
+    .hero h1 {
+        font-size: clamp(18px, 5vw, 22px);
+        margin-bottom: 8px;
+    }
+    .hero p {
+        font-size: clamp(12px, 3vw, 14px);
+        padding: 0 12px;
+        line-height: 1.5;
+    }
     .category-tabs {
         gap: 3px;
     }
-
     .category-btn {
         padding: 5px 6px;
         min-width: 50px;
         max-width: 70px;
     }
-
     .category-icon {
         width: 16px;
         height: 16px;
     }
-
     .category-btn i {
         font-size: 12px;
     }
-
     .category-btn span {
         font-size: 7px;
         letter-spacing: 0;
     }
-
     .products-grid {
         grid-template-columns: 1fr 1fr;
         gap: 10px;
     }
-
     .product-card {
         padding: 10px 8px;
     }
-
     .product-card .product-image {
         height: 80px;
     }
-
     .product-card h4 {
         font-size: 11px;
         min-height: 28px;
     }
-
     .product-card .product-spec {
         font-size: 10px;
     }
-
-    .product-card .product-price {
-        font-size: 14px;
-        margin: 8px 0;
-    }
-
     .product-card .btn-sm {
-        font-size: 9px;
-        padding: 3px 10px;
+        font-size: 10px;
+        padding: 6px 14px;
     }
-
     .advantages-grid {
         grid-template-columns: 1fr;
     }
-
     .category-content {
         padding: 10px 8px;
     }
-
     .category-description h3 {
         font-size: 17px;
-    }
-
-    .hero h1 {
-        font-size: 20px;
-    }
-
-    .hero p {
-        font-size: 13px;
     }
 }
 
@@ -909,362 +852,4 @@ footer {
         transform: translateY(0);
         opacity: 1;
     }
-}
-
-/* ============================================
-   МОБИЛЬНАЯ АДАПТИВНОСТЬ (ОБНОВЛЕННАЯ)
-   ============================================ */
-
-/* Планшеты и маленькие экраны */
-@media (max-width: 1024px) {
-    /* Категории */
-    .category-tabs {
-        gap: 8px;
-        padding: 5px 0 12px;
-        justify-content: flex-start;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-    
-    .category-tabs::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .category-btn {
-        padding: 10px 14px;
-        min-width: 80px;
-        max-width: 100px;
-        flex-shrink: 0;
-    }
-    
-    .category-btn .category-icon {
-        width: 24px;
-        height: 24px;
-    }
-    
-    .category-btn i {
-        font-size: 18px;
-    }
-    
-    .category-btn span {
-        font-size: 9px;
-    }
-}
-
-/* Мобильные телефоны (до 768px) */
-@media (max-width: 768px) {
-    /* ===== ШАПКА ===== */
-    header {
-        padding: 8px 0;
-    }
-    
-    header .container {
-        flex-wrap: wrap;
-        padding: 0 15px;
-        gap: 5px;
-    }
-    
-    .logo-text .company-name {
-        font-size: 13px;
-        letter-spacing: 0.5px;
-    }
-    
-    .logo-text .company-slogan {
-        font-size: 7px;
-        letter-spacing: 1px;
-    }
-    
-    .contacts-header .phone {
-        font-size: 12px;
-    }
-    
-    .contacts-header .phone i {
-        font-size: 12px;
-        margin-right: 4px;
-    }
-    
-    /* Навигация - скрываем или делаем бургер */
-    nav {
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-        order: 3;
-        padding-top: 5px;
-        border-top: 1px solid #333;
-    }
-    
-    nav a {
-        font-size: 11px;
-        padding: 3px 8px;
-    }
-    
-    /* ===== HERO-СЕКЦИЯ ===== */
-    .hero {
-        padding: 120px 0 40px;  /* ← Увеличен отступ сверху! */
-    }
-    
-    .hero h1 {
-        font-size: 22px;
-        letter-spacing: 1px;
-    }
-    
-    .hero p {
-        font-size: 14px;
-        padding: 0 15px;
-    }
-    
-    /* ===== ЗАГОЛОВОК ===== */
-    .section-title {
-        font-size: 22px;
-        letter-spacing: 1px;
-    }
-    
-    /* ===== КАТЕГОРИИ ===== */
-    .category-tabs {
-        gap: 6px;
-        padding: 5px 0 12px;
-        margin: 0 -15px;
-        padding-left: 15px;
-        padding-right: 15px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        justify-content: flex-start;
-    }
-    
-    .category-tabs::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .category-btn {
-        padding: 8px 12px;
-        min-width: 65px;
-        max-width: 85px;
-        flex-shrink: 0;
-        border-radius: 6px;
-        gap: 4px;
-    }
-    
-    .category-btn .category-icon {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .category-btn i {
-        font-size: 16px;
-    }
-    
-    .category-btn span {
-        font-size: 8px;
-        letter-spacing: 0.3px;
-    }
-    
-    /* ===== КОНТЕНТ ===== */
-    .category-content {
-        padding: 15px 12px;
-        min-height: 180px;
-    }
-    
-    .category-description h3 {
-        font-size: 18px;
-    }
-    
-    .category-description p {
-        font-size: 13px;
-        line-height: 1.6;
-    }
-    
-    /* ===== ТОВАРЫ ===== */
-    .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 12px;
-    }
-    
-    .product-card {
-        padding: 12px 10px;
-    }
-    
-    .product-card .product-image {
-        height: 100px;
-        padding: 5px;
-    }
-    
-    .product-card h4 {
-        font-size: 13px;
-        min-height: 30px;
-    }
-    
-    .product-card .product-spec {
-        font-size: 10px;
-    }
-    
-    .product-card .product-price {
-        font-size: 15px;
-        margin: 8px 0 10px;
-    }
-    
-    .product-card .btn-sm {
-        font-size: 9px;
-        padding: 4px 12px;
-    }
-}
-
-/* Очень маленькие экраны (до 480px) */
-@media (max-width: 480px) {
-    /* ===== ШАПКА ===== */
-    header {
-        padding: 5px 0;
-    }
-    
-    header .container {
-        padding: 0 10px;
-        gap: 3px;
-    }
-    
-    .logo-text .company-name {
-        font-size: 11px;
-        letter-spacing: 0.3px;
-    }
-    
-    .logo-text .company-slogan {
-        font-size: 6px;
-        letter-spacing: 0.5px;
-    }
-    
-    .contacts-header .phone {
-        font-size: 10px;
-    }
-    
-    .contacts-header .phone i {
-        font-size: 10px;
-    }
-    
-    nav a {
-        font-size: 9px;
-        padding: 2px 6px;
-    }
-    
-    /* ===== HERO ===== */
-    .hero {
-        padding: 105px 0 30px;
-    }
-    
-    .hero h1 {
-        font-size: 18px;
-    }
-    
-    .hero p {
-        font-size: 12px;
-        padding: 0 10px;
-    }
-    
-    /* ===== КАТЕГОРИИ ===== */
-    .category-tabs {
-        gap: 4px;
-        padding: 3px 0 10px;
-        margin: 0 -10px;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-    
-    .category-btn {
-        padding: 5px 8px;
-        min-width: 55px;
-        max-width: 70px;
-        border-radius: 4px;
-        gap: 3px;
-    }
-    
-    .category-btn .category-icon {
-        width: 16px;
-        height: 16px;
-    }
-    
-    .category-btn i {
-        font-size: 12px;
-    }
-    
-    .category-btn span {
-        font-size: 7px;
-    }
-    
-    /* ===== КОНТЕНТ ===== */
-    .category-content {
-        padding: 10px 8px;
-        min-height: 150px;
-    }
-    
-    .category-description h3 {
-        font-size: 16px;
-    }
-    
-    .category-description p {
-        font-size: 12px;
-    }
-    
-    /* ===== ТОВАРЫ ===== */
-    .products-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
-    
-    .product-card {
-        padding: 8px 6px;
-    }
-    
-    .product-card .product-image {
-        height: 70px;
-        padding: 3px;
-    }
-    
-    .product-card h4 {
-        font-size: 11px;
-        min-height: 24px;
-    }
-    
-    .product-card .product-spec {
-        font-size: 9px;
-    }
-    
-    .product-card .product-price {
-        font-size: 13px;
-        margin: 5px 0 8px;
-    }
-    
-    .product-card .btn-sm {
-        font-size: 8px;
-        padding: 3px 8px;
-    }
-}
-
-.hero {
-    background: 
-        linear-gradient(rgba(20, 20, 20, 0.85), rgba(10, 10, 10, 0.95)),
-        radial-gradient(circle at 30% 40%, #2a2a2a 0%, #0a0a0a 100%);
-    color: #ffffff;
-    padding: 150px 0 80px;  /* ← Увеличен отступ */
-    text-align: center;
-    border-bottom: 3px solid #444444;
-}
-
-/* Мобильные устройства */
-@media (max-width: 768px) {
-    .hero {
-        padding: 140px 0 40px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero {
-        padding: 130px 0 30px !important;
-    }
-}
-
-/* ===== ЖЁСТКИЙ ФОН ДЛЯ HERO ===== */
-.hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.75)), url('/static/images/factory-bg.jpg') center/cover no-repeat fixed !important;
-    min-height: 400px !important;
-    border-bottom: 3px solid #444444 !important;
 }
