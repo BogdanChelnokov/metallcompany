@@ -1,8 +1,7 @@
 /* ============================================
    static/css/style.css
    Строгий черно-белый стиль
-   Адаптивная шапка в одну строку
-   Резиновый hero с автоматическими отступами
+   Минималистичный и глубоко адаптивный код
    ============================================ */
 
 /* ===== ОБЩИЕ НАСТРОЙКИ ===== */
@@ -22,7 +21,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 4vw; /* Плавные боковые отступы вместо жестких px */
 }
 
 a {
@@ -34,7 +33,7 @@ a {
 header {
     background: #1a1a1a;
     color: #ffffff;
-    padding: 12px 0;
+    padding: 1.5vh 0; /* Высота шапки зависит от высоты экрана */
     position: fixed;
     width: 100%;
     top: 0;
@@ -45,8 +44,9 @@ header {
 
 header .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* На ПК: логотип слева, навигация справа */
     align-items: center;
+    gap: 15px;
 }
 
 /* ===== ЛОГОТИП ===== */
@@ -54,18 +54,17 @@ header .container {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-right: 40px;
     flex-shrink: 0;
 }
 
 .logo img {
-    height: 50px;
+    height: clamp(30px, 5vh, 50px); /* Масштабируется от высоты экрана */
     width: auto;
     object-fit: contain;
 }
 
 .company-name {
-    font-size: 28px;
+    font-size: clamp(14px, 2.5vw, 28px);
     font-weight: 700;
     color: #ffffff;
     letter-spacing: 1px;
@@ -76,19 +75,16 @@ header .container {
 nav {
     display: flex;
     align-items: center;
-    gap: 20px;
-    flex-wrap: nowrap;
+    gap: clamp(10px, 2vw, 20px);
 }
 
 nav a {
     color: #cccccc;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 400;
-    transition: color 0.3s ease;
+    font-size: clamp(10px, 1.2vw, 13px);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
+    transition: color 0.3s ease;
 }
 
 nav a:hover {
@@ -98,66 +94,60 @@ nav a:hover {
 .nav-phone {
     color: #ffffff !important;
     font-weight: 600 !important;
-    font-size: 14px !important;
-    padding-left: 20px;
     border-left: 1px solid #555555;
-    white-space: nowrap;
+    padding-left: clamp(10px, 1.5vw, 20px);
 }
 
 .nav-phone i {
-    margin-right: 8px;
+    margin-right: 6px;
     color: #888888;
 }
 
-/* ===== HERO (РЕЗИНОВЫЙ) ===== */
+/* ===== HERO SECTION ===== */
 .hero {
     background: 
         linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)),
         url('/static/images/factory-bg.jpg') center/cover no-repeat fixed;
     color: #ffffff;
-    padding: 12vh 0 8vh;
-    text-align: center;
-    border-bottom: 2px solid #444444;
-    min-height: 60vh;
+    padding: 15vh 0 10vh; 
+    min-height: 65vh; 
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    text-align: center;
+    border-bottom: 2px solid #444444;
 }
 
 .hero h1 {
-    font-size: clamp(28px, 5vw, 44px);
+    font-size: clamp(20px, 5vw, 44px);
     font-weight: 300;
-    margin-bottom: 15px;
+    margin-bottom: 2vh;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #ffffff;
 }
 
 .hero p {
-    font-size: clamp(14px, 2.5vw, 18px);
+    font-size: clamp(12px, 2vw, 18px);
     max-width: 750px;
     margin: 0 auto;
     opacity: 0.85;
-    line-height: 1.8;
+    line-height: 1.7;
     font-weight: 300;
-    letter-spacing: 0.3px;
-    padding: 0 20px;
 }
 
 /* ===== ПРОДУКЦИЯ ===== */
 .products-section {
-    padding: 60px 0 50px;
+    padding: 8vh 0;
     background: #f8f8f8;
     border-bottom: 1px solid #e0e0e0;
 }
 
 .section-title {
     text-align: center;
-    font-size: 32px;
+    font-size: clamp(22px, 4vw, 32px);
     font-weight: 300;
-    color: #222222;
-    margin-bottom: 30px;
+    margin-bottom: 4vh;
     letter-spacing: 3px;
     text-transform: uppercase;
 }
@@ -168,46 +158,42 @@ nav a:hover {
     width: 50px;
     height: 2px;
     background: #888888;
-    margin: 12px auto 0;
+    margin: 1.5vh auto 0;
 }
 
-/* ===== КАТЕГОРИИ ===== */
+/* ===== ТАБЫ КАТЕГОРИЙ ===== */
 .category-tabs {
     display: flex;
-    flex-wrap: nowrap;
     justify-content: center;
-    gap: 6px;
-    margin-bottom: 30px;
+    gap: 8px;
+    margin-bottom: 4vh;
     overflow-x: auto;
-    padding: 10px 0;
+    padding: 5px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 }
 
 .category-tabs::-webkit-scrollbar {
-    height: 0;
-    background: transparent;
+    display: none;
 }
 
 .category-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 10px 14px;
+    justify-content: center;
+    gap: 6px;
+    padding: 1.5vh 15px;
     background: #ffffff;
     border: 1.5px solid #cccccc;
     border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 80px;
-    max-width: 110px;
+    min-width: clamp(70px, 10vw, 110px);
     flex-shrink: 0;
     font-family: inherit;
-    font-size: 11px;
-    color: #555555;
+    font-size: clamp(9px, 1vw, 11px);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 
 .category-btn:hover {
@@ -223,16 +209,12 @@ nav a:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-.category-btn.active .category-icon {
-    filter: brightness(100);
-}
-
 .category-icon {
-    width: 28px;
-    height: 28px;
+    width: clamp(18px, 3vh, 28px);
+    height: clamp(18px, 3vh, 28px);
     object-fit: contain;
-    transition: filter 0.3s;
     filter: grayscale(100%) brightness(0.4);
+    transition: filter 0.3s;
 }
 
 .category-btn.active .category-icon {
@@ -240,9 +222,8 @@ nav a:hover {
 }
 
 .category-btn i {
-    font-size: 22px;
+    font-size: clamp(14px, 2.5vh, 22px);
     color: #666666;
-    transition: color 0.3s;
 }
 
 .category-btn.active i {
@@ -251,7 +232,6 @@ nav a:hover {
 
 .category-btn span {
     font-weight: 500;
-    font-size: 10px;
     line-height: 1.2;
     text-align: center;
 }
@@ -260,79 +240,46 @@ nav a:hover {
 .category-content {
     background: #ffffff;
     border-radius: 4px;
-    padding: 25px 20px;
+    padding: 4vh 4vw;
     border: 1px solid #e0e0e0;
-    min-height: 300px;
-    transition: opacity 0.3s ease;
-}
-
-.category-content-inner {
-    animation: fadeInContent 0.4s ease;
-}
-
-@keyframes fadeInContent {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.loading-spinner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 200px;
-    color: #888888;
-    font-size: 16px;
-    font-weight: 300;
-}
-
-.loading-spinner i {
-    font-size: 36px;
-    margin-bottom: 15px;
-    color: #666666;
+    min-height: 40vh;
 }
 
 .category-description {
-    margin-bottom: 25px;
-    padding-bottom: 20px;
+    margin-bottom: 3vh;
+    padding-bottom: 2vh;
     border-bottom: 1px solid #e8e8e8;
 }
 
 .category-description h3 {
-    font-size: 26px;
+    font-size: clamp(18px, 3vw, 26px);
     font-weight: 300;
-    color: #222222;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
+    margin-bottom: 1vh;
 }
 
 .category-description p {
-    font-size: 15px;
+    font-size: clamp(13px, 1.5vw, 15px);
     color: #555555;
-    line-height: 1.8;
 }
 
-/* ===== ТОВАРЫ ===== */
+/* ===== СЕТКА ТОВАРОВ ===== */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 18vw, 220px), 1fr));
     gap: 20px;
 }
 
 .product-card {
     background: #f8f8f8;
     border-radius: 4px;
-    padding: 18px 14px;
+    padding: 2vh 15px;
     text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
     border: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: all 0.3s ease;
 }
 
 .product-card:hover {
@@ -343,169 +290,142 @@ nav a:hover {
 
 .product-card .product-image {
     width: 100%;
-    height: 150px;
+    height: 18vh;
+    min-height: 100px;
     object-fit: contain;
-    border-radius: 4px;
-    margin-bottom: 12px;
     background: #ffffff;
     padding: 5px;
     filter: grayscale(100%);
     transition: filter 0.3s;
+    margin-bottom: 1.5vh;
 }
 
 .product-card:hover .product-image {
     filter: grayscale(0%);
 }
 
-.product-image-placeholder {
-    width: 100%;
-    height: 150px;
-    background: #eeeeee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    font-size: 40px;
-    color: #aaaaaa;
-    margin-bottom: 12px;
-}
-
 .product-card h4 {
-    font-size: 15px;
+    font-size: clamp(12px, 1.5vw, 15px);
     font-weight: 500;
-    color: #222222;
-    margin-bottom: 8px;
-    min-height: 38px;
+    margin-bottom: 1vh;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .product-card .product-spec {
-    font-size: 12px;
+    font-size: clamp(10px, 1.2vw, 12px);
     color: #777777;
-    margin: 2px 0;
+    margin-bottom: 1.5vh;
 }
 
 .product-card .btn-sm {
-    padding: 10px 24px;
-    font-size: 14px;
+    width: 100%;
+    padding: 1.2vh 15px;
+    font-size: clamp(11px, 1.3vw, 14px);
     background: #222222;
     color: #ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-block;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
     font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .product-card .btn-sm:hover {
     background: #444444;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* ===== ПУСТОЕ СООБЩЕНИЕ ===== */
 .empty-message {
     text-align: center;
-    padding: 60px 20px;
+    padding: 6vh 20px;
 }
 
 .empty-message i {
-    font-size: 50px;
+    font-size: clamp(35px, 6vh, 50px);
     color: #cccccc;
-    margin-bottom: 20px;
+    margin-bottom: 2vh;
 }
 
 .empty-message p {
-    font-size: 18px;
+    font-size: clamp(15px, 2.2vw, 18px);
     color: #555555;
-    margin-bottom: 5px;
+    margin-bottom: 0.5vh;
     font-weight: 300;
 }
 
 .empty-message .sub-text {
-    font-size: 14px;
+    font-size: clamp(12px, 1.5vw, 14px);
     color: #888888;
 }
 
 /* ===== ПРЕИМУЩЕСТВА ===== */
 .advantages-section {
     background: #ffffff;
-    padding: 70px 0;
+    padding: 8vh 0;
     border-bottom: 1px solid #e0e0e0;
 }
 
 .advantages-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 25px;
-    margin-top: 20px;
 }
 
 .advantage-item {
     text-align: center;
-    padding: 25px 20px;
+    padding: 3vh 20px;
     border-radius: 4px;
     border: 1px solid #e8e8e8;
-    transition: all 0.3s ease;
     background: #fafafa;
+    transition: all 0.3s ease;
 }
 
 .advantage-item:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
     border-color: #888888;
 }
 
 .advantage-icon {
-    width: 50px;
-    height: 50px;
+    width: clamp(35px, 5vh, 50px);
+    height: clamp(35px, 5vh, 50px);
     object-fit: contain;
-    margin-bottom: 15px;
+    margin-bottom: 2vh;
     filter: grayscale(100%) brightness(0.3);
 }
 
-.advantage-item i {
-    font-size: 36px;
-    color: #555555;
-    margin-bottom: 15px;
-}
-
 .advantage-item h3 {
-    font-size: 17px;
+    font-size: clamp(14px, 1.8vw, 17px);
     font-weight: 500;
-    color: #222222;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
+    margin-bottom: 1vh;
 }
 
 .advantage-item p {
     color: #777777;
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: clamp(12px, 1.4vw, 14px);
 }
 
-/* ===== ПОДВАЛ ===== */
+/* ===== КОМПАКТНЫЙ ПОДВАЛ ===== */
 footer {
     background: #1a1a1a;
     color: #ffffff;
-    padding: 40px 0 25px;
+    padding: 3.5vh 0 2vh; /* Уменьшены отступы сверху/снизу */
     border-top: 2px solid #444444;
 }
 
 .footer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
+    gap: 2.5vh; /* Уменьшено расстояние между блоками подвала */
 }
 
 .footer-grid h3 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    margin-bottom: 12px;
-    color: #ffffff;
-    letter-spacing: 1px;
+    margin-bottom: 1vh;
     text-transform: uppercase;
 }
 
@@ -515,341 +435,114 @@ footer {
     width: 30px;
     height: 1px;
     background: #555555;
-    margin-top: 8px;
+    margin-top: 0.5vh;
 }
 
-.footer-grid p {
+.footer-grid p, .footer-grid a {
     color: #888888;
-    font-size: 14px;
-    line-height: 1.8;
-}
-
-.footer-grid a {
-    color: #aaaaaa;
-    text-decoration: none;
-    transition: color 0.3s ease;
+    font-size: 13px;
 }
 
 .footer-grid a:hover {
     color: #ffffff;
 }
 
-.footer-grid i {
-    margin-right: 10px;
-    color: #555555;
-}
-
 .footer-copy {
-    margin-top: 30px;
-    padding-top: 18px;
+    margin-top: 2.5vh;
+    padding-top: 1.5vh;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     text-align: center;
     color: #666666;
-    font-size: 13px;
-    font-weight: 300;
-    letter-spacing: 0.5px;
+    font-size: 12px;
 }
 
-/* ===== КНОПКИ ===== */
+/* ===== ОБЩИЕ КНОПКИ ===== */
 .btn {
     display: inline-block;
     background: #222222;
     color: #ffffff;
-    padding: 12px 32px;
+    padding: 1.5vh 32px;
     border-radius: 4px;
-    text-decoration: none;
-    font-weight: 400;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    font-size: 15px;
-    letter-spacing: 1px;
     text-transform: uppercase;
+    transition: all 0.3s ease;
 }
 
 .btn:hover {
     background: #444444;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.btn-secondary {
-    background: #555555;
-}
-
-.btn-secondary:hover {
-    background: #777777;
 }
 
 /* ============================================
-   АДАПТИВНОСТЬ
+   МЕДИА-ЗАПРОСЫ
    ============================================ */
 
-@media (max-width: 1024px) {
-    .category-btn {
-        padding: 8px 10px;
-        min-width: 70px;
-        max-width: 95px;
-        font-size: 10px;
-    }
-    .category-icon {
-        width: 24px;
-        height: 24px;
-    }
-    .category-btn i {
-        font-size: 18px;
-    }
-    .category-btn span {
-        font-size: 9px;
-    }
-    .hero h1 {
-        font-size: clamp(26px, 4.5vw, 34px);
-    }
-    .hero p {
-        font-size: clamp(13px, 2.2vw, 16px);
-    }
-    .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-        gap: 16px;
-    }
-}
-
 @media (max-width: 768px) {
-    header {
-        padding: 8px 0;
-    }
     header .container {
-        flex-wrap: wrap;
-        padding: 0 10px;
-        gap: 4px;
         flex-direction: column;
-        align-items: center;
+        gap: 1vh;
     }
+    
     .logo {
-        gap: 10px;
         margin-right: 0;
-        justify-content: center;
-        width: 100%;
     }
-    .logo img {
-        height: 32px;
-    }
-    .company-name {
-        font-size: 16px;
-        text-align: center;
-        white-space: nowrap;
-    }
+
     nav {
-        gap: 6px;
-        flex-wrap: wrap;
-        justify-content: center;
         width: 100%;
-        padding-top: 6px;
-        border-top: 1px solid #333;
+        justify-content: center;
+        padding-top: 1vh;
+        border-top: 1px solid #333333;
+        flex-wrap: wrap;
     }
-    nav a {
-        font-size: 10px;
-        padding: 4px 6px;
-        white-space: nowrap;
-    }
+
     .nav-phone {
-        font-size: 11px !important;
-        padding-left: 0 !important;
-        border-left: none !important;
-        white-space: nowrap;
+        border-left: none;
+        padding-left: 0;
     }
-    .nav-phone i {
-        font-size: 10px;
-        margin-right: 4px;
-    }
+
+    /* Адаптированный Hero под центрирование текстов паддингами */
     .hero {
-        padding: 14vh 0 8vh !important;
-        min-height: 40vh !important;
-        background-attachment: scroll !important;
+        background-attachment: scroll !important; /* Отключает параллакс на iOS во избежание багов */
+        min-height: auto; 
+        
+        /* Разные отступы: Сверху больше (компенсируем шапку), снизу меньше. Текст встает оптически ровно по центру */
+        padding-top: 16vh; 
+        padding-bottom: 8vh;
     }
-    .hero h1 {
-        font-size: clamp(22px, 4vw, 28px);
-    }
-    .hero p {
-        font-size: clamp(13px, 2.2vw, 15px);
-        padding: 0 15px;
-    }
-    .section-title {
-        font-size: 24px;
-    }
+
     .category-tabs {
-        gap: 4px;
-        padding: 6px 0;
         justify-content: flex-start;
     }
-    .category-btn {
-        padding: 6px 8px;
-        min-width: 60px;
-        max-width: 80px;
-        border-width: 1px;
-        border-radius: 3px;
-    }
-    .category-icon {
-        width: 20px;
-        height: 20px;
-    }
-    .category-btn i {
-        font-size: 15px;
-    }
-    .category-btn span {
-        font-size: 8px;
-    }
-    .products-section {
-        padding: 35px 0 25px;
-    }
-    .category-content {
-        padding: 15px 12px;
-        min-height: 180px;
-    }
-    .category-description h3 {
-        font-size: 20px;
-    }
-    .category-description p {
-        font-size: 13px;
-    }
-    .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 12px;
-    }
-    .product-card {
-        padding: 12px 10px;
-    }
-    .product-card .product-image {
-        height: 100px;
-    }
-    .product-card h4 {
-        font-size: 13px;
-        min-height: 32px;
-    }
-    .product-card .product-spec {
-        font-size: 11px;
-    }
-    .product-card .btn-sm {
-        font-size: 12px;
-        padding: 8px 18px;
-    }
-    .advantages-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-    .advantage-item {
-        padding: 15px 12px;
-    }
-    .advantage-item h3 {
-        font-size: 14px;
-    }
+
+    /* Компактный подвал для мобильных */
     .footer-grid {
         grid-template-columns: 1fr;
         text-align: center;
+        gap: 2vh;
     }
+
     .footer-grid h3::after {
-        margin: 8px auto 0;
+        margin: 0.5vh auto 0;
     }
 }
 
 @media (max-width: 480px) {
-    header {
-        padding: 6px 0;
-    }
-    .logo img {
-        height: 28px;
-    }
-    .company-name {
-        font-size: 14px;
-    }
-    nav a {
-        font-size: 9px;
-        padding: 2px 5px;
-    }
-    .nav-phone {
-        font-size: 10px !important;
-    }
-    .hero {
-        padding: 14vh 0 6vh !important;
-        min-height: 35vh !important;
-    }
-    .hero h1 {
-        font-size: clamp(18px, 5vw, 22px);
-        margin-bottom: 8px;
-    }
-    .hero p {
-        font-size: clamp(12px, 3vw, 14px);
-        padding: 0 12px;
-        line-height: 1.5;
-    }
-    .category-tabs {
-        gap: 3px;
-    }
-    .category-btn {
-        padding: 5px 6px;
-        min-width: 50px;
-        max-width: 70px;
-    }
-    .category-icon {
-        width: 16px;
-        height: 16px;
-    }
-    .category-btn i {
-        font-size: 12px;
-    }
-    .category-btn span {
-        font-size: 7px;
-        letter-spacing: 0;
-    }
     .products-grid {
         grid-template-columns: 1fr 1fr;
         gap: 10px;
     }
-    .product-card {
-        padding: 10px 8px;
-    }
-    .product-card .product-image {
-        height: 80px;
-    }
-    .product-card h4 {
-        font-size: 11px;
-        min-height: 28px;
-    }
-    .product-card .product-spec {
-        font-size: 10px;
-    }
-    .product-card .btn-sm {
-        font-size: 10px;
-        padding: 6px 14px;
-    }
-    .advantages-grid {
-        grid-template-columns: 1fr;
-    }
-    .category-content {
-        padding: 10px 8px;
-    }
-    .category-description h3 {
-        font-size: 17px;
+    
+    .hero {
+        padding-top: 18vh;
+        padding-bottom: 10vh;
     }
 }
 
 /* ===== АНИМАЦИИ ===== */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.category-content-inner {
+    animation: fadeInContent 0.4s ease;
 }
 
-@keyframes slideDown {
-    from {
-        transform: translateY(-15px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+@keyframes fadeInContent {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
